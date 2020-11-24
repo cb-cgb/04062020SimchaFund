@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04062020SimchaFund", "04062020SimchaFund\04062020SimchaFund.csproj", "{70ED2CEB-681C-48F3-8327-74C7BAED736B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "04062020SimchaFund", "04062020SimchaFund\04062020SimchaFund.csproj", "{70ED2CEB-681C-48F3-8327-74C7BAED736B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B659E26C-C98C-4BFD-BADD-4196CA22134C} = {B659E26C-C98C-4BFD-BADD-4196CA22134C}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimchaFund.data", "SimchaFund.data\SimchaFund.data.csproj", "{B659E26C-C98C-4BFD-BADD-4196CA22134C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +20,10 @@ Global
 		{70ED2CEB-681C-48F3-8327-74C7BAED736B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70ED2CEB-681C-48F3-8327-74C7BAED736B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70ED2CEB-681C-48F3-8327-74C7BAED736B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B659E26C-C98C-4BFD-BADD-4196CA22134C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B659E26C-C98C-4BFD-BADD-4196CA22134C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B659E26C-C98C-4BFD-BADD-4196CA22134C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B659E26C-C98C-4BFD-BADD-4196CA22134C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

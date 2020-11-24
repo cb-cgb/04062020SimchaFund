@@ -5,4 +5,8 @@
     <RootNamespace>_04062020SimchaFund</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SimchaFund.data\SimchaFund.data.csproj" />
+  </ItemGroup>
+
 </Project>

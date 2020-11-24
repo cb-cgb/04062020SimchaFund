@@ -1,8 +1,76 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using SimchaFund.data;
+@model SimchaViewModel ;
+
+@if (!String.IsNullOrEmpty(Model.Message))
+{
+    <div id="alert" class="alert alert-success" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        @Model.Message
+    </div>
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h2 class="text-center"> Simchos</h2>
+
+<div class="row" style="margin-top:30px">
+    <button id="add-simcha" class="button btn-success">Add Simcha</button>
+
+    <table class="table table-bordered table-striped ">
+        <tr>
+            <th>Contributions</th>
+            <th>Simcha name</th>
+            <th>Contributor Count</th>
+            <th>Total</th>
+            <th>Simcha Date</th>
+        </tr>
+
+        @foreach (Simcha s in Model.Simchos)
+        {
+            <tr>
+                <td>
+                    <a href="/Home/Contributions?simchaId=@s.Id&simchaName=@s.Name" class="btn btn-danger">Contributions</a>
+
+                </td>
+                <td>@s.Name</td>
+                <td>@s.ContributorCount/@Model.TotalContributorCount</td>
+                <td>@s.TotalContributions.ToString("C")</td>
+                <td>@s.Date.ToShortDateString()</td>
+
+            </tr>
+
+        }
+    </table>
+
 </div>
+
+<div id="simcha-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Simcha</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+            </div>
+            <div class="modal-body">
+                <form method="post" action="/Home/AddSimcha">
+                    <input name="name" class="form-control" type="text" placeholder="Simcha Name" />
+                    <br />
+                    <input name="date" class="form-control" type="date" placeholder="Simcha Date" />
+                    <br />
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+@section Scripts {
+    <script src="/js/index.js"></script>
+}

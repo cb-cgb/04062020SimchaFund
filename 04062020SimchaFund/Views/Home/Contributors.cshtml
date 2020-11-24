@@ -1,0 +1,164 @@
+﻿@using SimchaFund.data
+@model ContribViewModel
+
+<div>
+    <h1 class="text-center">Contributors</h1></> 
+</div>
+
+<div class="row header" style="margin-top:30px">
+
+    <div class="col-md-2">
+        <button id="add-contr" class="btn btn-outline-primary">Add Contributor</button>
+    </div>
+
+    <div class="col-md-8">
+        <input id="txt-search" class="text-sm-center" placeholder="Search" />
+        <button id="btn-clear" class="btn btn-danger">Clear</button>
+    </div>
+
+    <h3>Total: @Model.TotalBalance.ToString("C")</h3>
+
+    <table class="table table-bordered table table-striped" style="margin-top:20px ">
+        <tr>
+            <th>Deposit</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Balance</th>
+            <th>Always Include</th>
+            <th>Actions</th>
+        </tr>
+
+        @foreach (Contributor c in Model.Contributors)
+        {
+        <tr>
+            <td>
+
+                <button  id="add-deposit" class="btn btn-success form-depo-add"  data-id="@c.Id" value="@c.Id">Deposit</button>
+            </td>
+            <td>@c.First @c.Last </td>
+            <td>@c.Phone</td>
+            <td>@c.Balance.ToString("C")</td>
+            <td>
+                @if (c.AlwaysContribute)
+                {
+                  @c.AlwaysContribute
+                   <span class="glyphicon glyphicon-check"> </span>
+                }
+            </td>
+            <td>
+                <button id="edit-contr" class="btn btn-danger form-contr-edit" data-id="@c.Id" data-first="@c.First" data-last="@c.Last"
+                        data-phone="@c.Phone" data-alwayscontr="@c.AlwaysContribute", data-date="@c.DateCreated.ToString("yyyy-MM-dd")">Edit</button>
+                 
+                <a href="/Home/Transactions?contrId=@c.Id" class="btn btn-info">Show History</a> 
+            </td>
+
+           
+        </tr>
+        }
+    </table>
+
+</div>
+
+<div id="contr-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div  class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><span id="mod-title"></span> Contributor</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+            </div>
+            <div class="modal-body">
+                <form id="form-contr" method="post" action="/Home/AddContributor">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label>First Name</label>
+                            <input id="txt-first" name="first" class="form-control" type="text" placeholder="First Name" />
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label>Last Name</label>
+                            <input id="txt-last" name="last" class="form-control" type="text" placeholder="Last Name" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label>Phone Number</label>
+                            <input id="txt-phone" name="phone" class="form-control" type="text" placeholder="Phone" />
+                        </div>
+
+                        <div id="init-deposit" class="form-group col-md-6">
+                            <label>Initial Deposit</label>
+                            <input name="Amount" class="form-control" , type="text" placeholder="$0.00" />
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div id="dat-date" class="form-group col-md-6">
+                            <label>Date Created</label>
+                            <input  id="txt-date" name="DateCreated" class="form-control" type="date" />
+                        </div>
+
+
+                        <div class="form-group col-md-6">
+                            <input id="chk-include" name="AlwaysContribute" class="checkbox" type="checkbox" value="true" /> Always Contribute?
+                        </div>
+                    </div>
+                    <input id="txt-id" name="Id" type="hidden" class="form-control" />
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button  disabled id="btn-submit-contr"  class="btn btn-primary">Submit</button>
+                    </div>
+
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="depo-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Deposit</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+            </div>
+            <div class="modal-body">
+                <form id="form-depo" method="post" action="/Home/AddTransaction">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label>Amount</label>
+                            <input id="txt-amt" name="Amount" class="form-control" type="text" placeholder="Amount" />
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label>Date</label>
+                            <input id="date" name="date" class="form-control" type="date" placeholder="deposit date" value ="@DateTime.Now.ToString("yyyy-MM-dd" )"/>
+                        </div>
+                    </div>
+
+                    <input type="hidden" class="form-control" name="trantype" value="Deposit" />
+                    <input type="hidden" class="form-control" name="simchaId" value="0" />                    
+                    <input id="txt-contrid" type="hidden" class="form-control" name="contrId"    />
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button  disabled id="btn-submit-depo" class="btn btn-primary">Submit</button>
+                    </div>
+
+
+
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+@section Scripts {
+    <script src="/js/index.js"></script>"
+}
+

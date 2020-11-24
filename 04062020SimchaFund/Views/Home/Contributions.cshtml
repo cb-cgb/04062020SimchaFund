@@ -1,0 +1,76 @@
+﻿@using SimchaFund.data
+@model ContributionViewModel
+
+<div style="text-align:center">
+    <h2 class="text-center">Contributors for <span style="color:red">@Model.SimchaName</span> Simcha</h2> 
+</div>
+
+<div class="row header" style="text-align:center;margin-top:30px">   
+
+    <div class="col-md-12">
+        <input id="txt-search" class="text-sm-center" placeholder="Search" />
+        <button id="btn-clear" class="btn btn-danger">Clear</button>
+    </div>
+</div>
+
+
+<form method="POST" action="/Home/UpdateContributions?simchaId=@Model.SimchaId&simchaName=@Model.SimchaName">
+    
+    <table class="table table-bordered table table-striped " style="margin-top:20px ">
+        <tr>
+            <th>Contribute</th>
+            <th>Name</th>
+            <th>Balance</th>
+            <th>Always Include</th>
+            <th>Amount</th>
+        </tr>
+
+        @{int i = 0;}
+        @foreach (Contribution c in Model.Contributions)
+        {
+            <tr>
+                <td>
+
+                    @if (c.Amount > 0)
+                    {
+                    <input class="checkbox contrib" name="contributions[@i].IsContributor" type="checkbox" checked="checked" value="true" />
+                    }
+                    else
+                    {
+                    <input class="checkbox contrib" name="contributions[@i].IsContributor" type="checkbox"  value="true" />
+
+                    }
+
+                </td>
+                <td>@c.ContrName </td>
+                <td>@c.Balance.ToString("C")</td>
+                <td>
+                    @if (c.AlwaysInclude)
+                    {
+                        @c.AlwaysInclude
+                        <span class="glyphicon glyphicon-check"> </span>}
+                </td>
+                <td> <input type=text name="contributions[@i].Amount" class="form-control" value="@c.Amount.ToString("C")" Value="@(c.Amount )" />   </td>
+
+            </tr>
+            <input type="hidden" name="contributions[@i].ContrId" value="@c.ContrId" />
+            <input type="hidden" name="contributions[@i].SimchaId" value="@Model.SimchaId" />
+
+
+            i++;
+        }
+    </table>
+
+    <div style="text-align:center">
+        <button class="btn btn-lg btn-danger">Update</button>
+    </div>
+
+</form>
+
+
+
+
+@section Scripts {
+    <script src="/js/index.js"></script>"
+}
+

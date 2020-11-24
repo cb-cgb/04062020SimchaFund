@@ -1,0 +1,44 @@
+﻿@using SimchaFund.data
+@model TransViewModel;
+
+<div>
+    <h2 class="text-center">History for @Model.Name</h2></> 
+    <h3 class="text-center">Current Balance: @Model.Balance.ToString("C")</h3>
+</div>
+
+<div class="row" style="margin-top:30px">
+
+
+
+    <table class="table table-bordered table table-striped" style="margin-top:20px ">
+        <tr>
+            <th>Description</th>
+            <th>Date</th>
+            <th>Amount</th>
+        </tr>
+
+        @foreach (Transaction t in Model.Transactions)
+
+
+        {
+            <tr>
+                <td style="text-align:center">@t.TranType </td>
+                <td style="text-align:center">@t.Date.ToLongDateString() </td>
+                <td style="text-align:center">@(t.TranType.Contains("Deposit")? '+' : '-')@t.Amount.ToString("C")  </td>
+            </tr>
+        }
+    </table>
+
+    <div class="header"style="text-align:center">
+        <a href="/Home/Contributors" class="btn btn-danger">Back to Contributors</a>
+    </div>
+
+
+</div>
+
+
+
+@section Scripts {
+    <script src="/js/index.js"></script>"
+}
+
