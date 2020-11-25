@@ -45,6 +45,11 @@ namespace _04062020SimchaFund.Controllers
             ContribViewModel vm = new ContribViewModel();
             vm.Contributors = sm.GetContributors();
             vm.TotalBalance = sm.GetTotalBalance();
+            
+            if (TempData["success-message"] != null) {
+                vm.Message = (String)TempData["success-message"];
+            }
+
             return View(vm);
         }
 
@@ -73,7 +78,10 @@ namespace _04062020SimchaFund.Controllers
         public IActionResult EditContributor(Contributor c)
         {
             SimchaManager sm = new SimchaManager(_conn);
+            ContribViewModel vm = new ContribViewModel();
             sm.UpdateContributor(c);
+
+            TempData["success-message"] = $"Updated contributor {c.First + ' ' + c.Last}!";
 
             return Redirect("/Home/Contributors");
         }

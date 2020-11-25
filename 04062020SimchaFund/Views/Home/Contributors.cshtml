@@ -1,8 +1,20 @@
 ﻿@using SimchaFund.data
 @model ContribViewModel
 
+@if (!String.IsNullOrEmpty(Model.Message))
+{
+<div id="alert" class="alert alert-success" role="alert">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    @Model.Message
+</div>
+}
+
+
 <div>
-    <h1 class="text-center">Contributors</h1></> 
+    <h1 class="text-center">Contributors</h1></>
 </div>
 
 <div class="row header" style="margin-top:30px">
@@ -30,37 +42,39 @@
 
         @foreach (Contributor c in Model.Contributors)
         {
-        <tr>
-            <td>
+            <tr>
+                <td>
 
-                <button  id="add-deposit" class="btn btn-success form-depo-add"  data-id="@c.Id" value="@c.Id">Deposit</button>
-            </td>
-            <td>@c.First @c.Last </td>
-            <td>@c.Phone</td>
-            <td>@c.Balance.ToString("C")</td>
-            <td>
-                @if (c.AlwaysContribute)
-                {
-                  @c.AlwaysContribute
-                   <span class="glyphicon glyphicon-check"> </span>
-                }
-            </td>
-            <td>
-                <button id="edit-contr" class="btn btn-danger form-contr-edit" data-id="@c.Id" data-first="@c.First" data-last="@c.Last"
-                        data-phone="@c.Phone" data-alwayscontr="@c.AlwaysContribute", data-date="@c.DateCreated.ToString("yyyy-MM-dd")">Edit</button>
-                 
-                <a href="/Home/Transactions?contrId=@c.Id" class="btn btn-info">Show History</a> 
-            </td>
+                    <button id="add-deposit" class="btn btn-success form-depo-add" data-id="@c.Id" value="@c.Id">Deposit</button>
+                </td>
+                <td>@c.First @c.Last </td>
+                <td>@c.Phone</td>
+                <td>@c.Balance.ToString("C")</td>
+                <td>
+                    @if (c.AlwaysContribute)
+                    {
+                        @c.AlwaysContribute
+                        <span class="glyphicon glyphicon-check"> </span>
+                    }
+                </td>
+                <td>
+                    <button id="edit-contr" class="btn btn-danger form-contr-edit" data-id="@c.Id" data-first="@c.First" data-last="@c.Last"
+                            data-phone="@c.Phone" data-alwayscontr="@c.AlwaysContribute" , data-date="@c.DateCreated.ToString("yyyy-MM-dd")">
+                        Edit
+                    </button>
 
-           
-        </tr>
+                    <a href="/Home/Transactions?contrId=@c.Id" class="btn btn-info">Show History</a>
+                </td>
+
+
+            </tr>
         }
     </table>
 
 </div>
 
 <div id="contr-modal" class="modal fade" tabindex="-1" role="dialog">
-    <div  class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"><span id="mod-title"></span> Contributor</h4>
@@ -98,7 +112,7 @@
                     <div class="row">
                         <div id="dat-date" class="form-group col-md-6">
                             <label>Date Created</label>
-                            <input  id="txt-date" name="DateCreated" class="form-control" type="date" />
+                            <input id="txt-date" name="DateCreated" class="form-control" type="date" />
                         </div>
 
 
@@ -110,7 +124,7 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button  disabled id="btn-submit-contr"  class="btn btn-primary">Submit</button>
+                        <button disabled id="btn-submit-contr" class="btn btn-primary">Submit</button>
                     </div>
 
                 </form>
@@ -137,17 +151,17 @@
 
                         <div class="form-group col-md-6">
                             <label>Date</label>
-                            <input id="date" name="date" class="form-control" type="date" placeholder="deposit date" value ="@DateTime.Now.ToString("yyyy-MM-dd" )"/>
+                            <input id="date" name="date" class="form-control" type="date" placeholder="deposit date" value="@DateTime.Now.ToString("yyyy-MM-dd" )" />
                         </div>
                     </div>
 
                     <input type="hidden" class="form-control" name="trantype" value="Deposit" />
-                    <input type="hidden" class="form-control" name="simchaId" value="0" />                    
-                    <input id="txt-contrid" type="hidden" class="form-control" name="contrId"    />
+                    <input type="hidden" class="form-control" name="simchaId" value="-1" /> 
+                    <input id="txt-contrid" type="hidden" class="form-control" name="contrId" />
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button  disabled id="btn-submit-depo" class="btn btn-primary">Submit</button>
+                        <button disabled id="btn-submit-depo" class="btn btn-primary">Submit</button>
                     </div>
 
 

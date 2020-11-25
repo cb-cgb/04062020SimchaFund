@@ -25,7 +25,8 @@ namespace SimchaFund.data
             using (SqlCommand cmd = conn.CreateCommand())
             {
                 //query excludes id =-1 as that is the placeholder simchaid for deposits, used in the transaction table, simchaId field
-                cmd.CommandText = @"select s.*, isnull(c.ContrCount,0)contrCount, isnull(c.totalAmt,0)totalAmt
+                //using abs for totalamt as contributions are stored as negatives when inserted into Transaction  (AddTransaction) but we don't want to display as negative when showing the total contributions. 
+                cmd.CommandText = @"select s.*, isnull(c.ContrCount,0)contrCount, isnull(abs(c.totalAmt),0)totalAmt 
                                     from simchos s
                                     left outer join 
                                     (select simchaId,sum(Amount)totalAmt, count(distinct ContrId)contrCount
@@ -205,13 +206,16 @@ namespace SimchaFund.data
             using (SqlConnection conn = new SqlConnection(_conn))
             using (SqlCommand cmd = conn.CreateCommand())
             {
-                cmd.CommandText = @"Insert into Transactions 
-                                    Select @simchaId,@contrId ,@amount,@transType,@date";
+                cmd.CommandText = @"Insert into Transactions (simchaid, contrid, amount,transtype) 
+                                    Select @simchaId,@contrId ,
+                                    case when @transType = 'Contribution' then @amount *-1
+                                    else @amount end as amount, @transType";
+
                 cmd.Parameters.AddWithValue("@simchaId", t.SimchaId);
                 cmd.Parameters.AddWithValue("@contrId", t.ContrId);
                 cmd.Parameters.AddWithValue("@amount", t.Amount);
                 cmd.Parameters.AddWithValue("@transType", t.TranType);
-                cmd.Parameters.AddWithValue("@date", t.Date);
+                //cmd.Parameters.AddWithValue("@date", t.Date);
 
                 conn.Open();
                 cmd.ExecuteNonQuery();
@@ -266,8 +270,9 @@ namespace SimchaFund.data
             using (SqlCommand cmd = conn.CreateCommand())
             {
                 //pull all the contribuors and indicate if they contributed to the simcha we are looking at
+                //using abs(tr.amount) as they are stored as negatives in Transactions table but when displaying, don't want to dispaly as negative
                 cmd.CommandText = @"select c.Id contrId, c.First + ' ' + c.Last as contrName, 
-                                    c.alwaysContribute, transDate, tr.amount, tr.simchaName , tr.simchaId
+                                    c.alwaysContribute, transDate, abs(tr.amount) amount, tr.simchaName , tr.simchaId
                                     
 									 
                                  from Contributor c                                       
@@ -328,13 +333,14 @@ namespace SimchaFund.data
 
                 foreach (Contribution c in contributions.Where(c => c.IsContributor)) //for any that are marked as contributing, insert a contribution.
                 {
-                    cmd.Parameters.Clear();
-                    cmd.CommandText = cmdInsert;
-                    cmd.Parameters.AddWithValue("contrId", c.ContrId);
-                    cmd.Parameters.AddWithValue("simchaId", c.SimchaId);
-                    cmd.Parameters.AddWithValue("amount", c.Amount);
+                    //cmd.Parameters.Clear();
+                    AddTransaction(new Transaction { ContrId = c.ContrId, SimchaId = c.SimchaId, Amount = c.Amount, TranType = "Contribution" });
+                    //cmd.CommandText = cmdInsert;
+                    //cmd.Parameters.AddWithValue("contrId", c.ContrId);
+                    //cmd.Parameters.AddWithValue("simchaId", c.SimchaId);
+                    //cmd.Parameters.AddWithValue("amount", c.Amount);
 
-                    cmd.ExecuteNonQuery();
+                    //cmd.ExecuteNonQuery();
 
                 }
 

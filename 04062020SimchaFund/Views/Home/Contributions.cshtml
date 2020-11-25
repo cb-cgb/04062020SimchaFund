@@ -1,6 +1,7 @@
 ﻿@using SimchaFund.data
 @model ContributionViewModel
 
+
 <div style="text-align:center">
     <h2 class="text-center">Contributors for <span style="color:red">@Model.SimchaName</span> Simcha</h2> 
 </div>
@@ -50,7 +51,7 @@
                         @c.AlwaysInclude
                         <span class="glyphicon glyphicon-check"> </span>}
                 </td>
-                <td> <input type=text name="contributions[@i].Amount" class="form-control" value="@c.Amount.ToString("C")" Value="@(c.Amount )" />   </td>
+                <td> <input type=text name="contributions[@i].Amount" class="form-control" value="@c.Amount"  />   </td>
 
             </tr>
             <input type="hidden" name="contributions[@i].ContrId" value="@c.ContrId" />

@@ -24,7 +24,7 @@
             <tr>
                 <td style="text-align:center">@t.TranType </td>
                 <td style="text-align:center">@t.Date.ToLongDateString() </td>
-                <td style="text-align:center">@(t.TranType.Contains("Deposit")? '+' : '-')@t.Amount.ToString("C")  </td>
+                <td style="text-align:center">@t.Amount.ToString("C")  </td>
             </tr>
         }
     </table>
