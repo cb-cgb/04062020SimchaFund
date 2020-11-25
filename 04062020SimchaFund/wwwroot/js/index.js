@@ -92,6 +92,27 @@ $(() => {
     });
 
 
+
+    ///Search
+    $("#txt-search").on('keyup', function () {
+        const search = $(this).val();
+        $("table tr:gt(0)").each(function () {
+            const tr = $(this);
+            const name = tr.find('td:eq(1)').text();
+            if (name.toLowerCase().indexOf(search.toLowerCase()) !== -1) { //if search string is found in the name fields
+                tr.show();
+            }
+            else {
+                tr.hide();
+            }
+                
+        })
+    })
+
+    $("#btn-clear").on('click', function () {
+        $("#txt-search").val("");
+        $('tr').show();
+    })
     
    
 });

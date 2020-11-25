@@ -13,23 +13,24 @@
 }
 
 
-<div>
     <h1 class="text-center">Contributors</h1></>
-</div>
 
-<div class="row header" style="margin-top:30px">
+
+<div class="row" style="margin-top:30px">
 
     <div class="col-md-2">
         <button id="add-contr" class="btn btn-outline-primary">Add Contributor</button>
     </div>
 
-    <div class="col-md-8">
+    <div class="col-md-8" style="text-align:center">
         <input id="txt-search" class="text-sm-center" placeholder="Search" />
         <button id="btn-clear" class="btn btn-danger">Clear</button>
     </div>
 
     <h3>Total: @Model.TotalBalance.ToString("C")</h3>
+</div>
 
+<div>
     <table class="table table-bordered table table-striped" style="margin-top:20px ">
         <tr>
             <th>Deposit</th>
