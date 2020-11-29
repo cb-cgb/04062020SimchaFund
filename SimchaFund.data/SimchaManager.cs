@@ -240,7 +240,7 @@ namespace SimchaFund.data
                                     END as transType                                    
                                     from Transactions t, Simchos s, Contributor c      
                                     where t.contrId = c.Id and t.simchaId = s.Id
-                                    and c.id = @contrId";
+                                    and c.id = @contrId order by t.date desc";
                 cmd.Parameters.AddWithValue("contrId", contrId);
                 conn.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -314,18 +314,15 @@ namespace SimchaFund.data
         public void UpdateContribution(List<Contribution> contributions, int simchaId)
         {
 
-            String cmdInsert = @"insert into Transactions (contrId, simchaId, amount, transtype)
-                                            select @contrId, @simchaId, @amount,   'Contribution'";
-
-            String cmdDelete = @"delete from Transactions where transtype = 'Contribution' and simchaId   = @simchaId";
+            //delete all existing contributions for this simcha and then insert  if contributing
 
 
             using (SqlConnection conn = new SqlConnection(_conn))
             using (SqlCommand cmd = conn.CreateCommand())
             {
 
-                cmd.CommandText = cmdDelete;// delete all existing contributions for this simcha
-
+                cmd.CommandText = @"delete from Transactions  
+                                    where transtype = 'Contribution' and simchaId = @simchaId";
                 cmd.Parameters.AddWithValue("simchaId", @simchaId);
 
                 conn.Open();

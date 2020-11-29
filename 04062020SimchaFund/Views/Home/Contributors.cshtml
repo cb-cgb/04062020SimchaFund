@@ -46,7 +46,7 @@
             <tr>
                 <td>
 
-                    <button id="add-deposit" class="btn btn-success form-depo-add" data-id="@c.Id" value="@c.Id">Deposit</button>
+                    <button id="add-deposit" class="btn btn-success form-depo-add" data-id="@c.Id" data-name="@c.First @c.Last" value="@c.Id">Deposit</button>
                 </td>
                 <td>@c.First @c.Last </td>
                 <td>@c.Phone</td>
@@ -138,7 +138,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Add Deposit</h4>
+                <h4 id="depo-title" class="modal-title">Add Deposit</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
             </div>

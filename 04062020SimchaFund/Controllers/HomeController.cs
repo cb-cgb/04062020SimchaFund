@@ -12,8 +12,7 @@ namespace _04062020SimchaFund.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private string _conn = @"Data Source=.\sqlexpress;Initial Catalog=SimchaFund;Integrated Security=True;";
+         private string _conn = @"Data Source=.\sqlexpress;Initial Catalog=SimchaFund;Integrated Security=True;";
 
 
         public IActionResult Index()

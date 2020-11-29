@@ -7,8 +7,8 @@ namespace SimchaFund.data
         public int Id { get; set; }
         public String Name { get; set; }
         public DateTime Date { get; set; }
-        public Decimal TotalContributions { get; set; }
-        public int ContributorCount { get; set; }
+        public Decimal TotalContributions { get; internal set; }
+        public int ContributorCount { get; internal set; }
     }
 
     public class Contributor

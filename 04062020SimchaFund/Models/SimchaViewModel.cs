@@ -12,7 +12,7 @@ namespace _04062020SimchaFund.Models
         public List<Simcha>Simchos { get; set; }
         public int TotalContributorCount { get; set; }
         public string Message { get; set; }
-        public string SimchaName { get; set; }
+        //public string SimchaName { get; set; }
         
 
     }

@@ -87,7 +87,7 @@ $(() => {
         console.log($(this).data('id'))
         
         $("#txt-contrid").val($(this).data('id'));
-        console.log($("#txt-contrid").val());
+        $("#depo-title").text(`Deposit for ${$(this).data('name')}`);
         $("#depo-modal").modal();
     });
 
